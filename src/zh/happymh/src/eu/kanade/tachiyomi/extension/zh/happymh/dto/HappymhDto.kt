@@ -46,5 +46,5 @@ data class PageListResponseDto(val data: PageListData)
 @Serializable
 data class PageListData(val scans: List<PageDto>) {
     @Serializable
-    data class PageDto(val n: Int, val url: String)
+    data class PageDto(val n: Int, val url: String, val height: Int)
 }
