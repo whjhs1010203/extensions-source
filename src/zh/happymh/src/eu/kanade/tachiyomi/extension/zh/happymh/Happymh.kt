@@ -270,7 +270,7 @@ class Happymh : HttpSource(), ConfigurableSource {
             // If n == 1, the image is from next chapter
             .filter { it.n == 0 }
             .mapIndexed { index, it ->
-                Page(index, "", it.url)
+                Page(index, "", if (it.height > 16383) it.url else it.url.substringBefore('?'))
             }
     }
 
@@ -280,13 +280,7 @@ class Happymh : HttpSource(), ConfigurableSource {
         val headers = headersBuilder()
             .set("Referer", "$baseUrl/")
             .build()
-        var reqTest = GET(page.imageUrl!!, headers)
-        val reqRes = client.newCall(reqTest).execute()
-        val statusCode = reqRes.code
-        if (statusCode == 400) {
-            reqTest = GET(page.imageUrl!!.substringBefore('?'), headers)
-        }
-        return reqTest
+        return GET(page.imageUrl!!, headers)
     }
 
     override fun setupPreferenceScreen(screen: PreferenceScreen) {
