@@ -280,7 +280,13 @@ class Happymh : HttpSource(), ConfigurableSource {
         val headers = headersBuilder()
             .set("Referer", "$baseUrl/")
             .build()
-        return GET(page.imageUrl!!, headers)
+        var reqTest = GET(page.imageUrl!!, headers)
+        val reqRes = client.newCall(reqTest).execute()
+        val statusCode = reqRes.code
+        if (statusCode == 400) {
+            reqTest = GET(page.imageUrl!!.substringBefore('?'), headers)
+        }
+        return reqTest
     }
 
     override fun setupPreferenceScreen(screen: PreferenceScreen) {
