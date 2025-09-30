@@ -270,7 +270,7 @@ class Happymh : HttpSource(), ConfigurableSource {
             // If n == 1, the image is from next chapter
             .filter { it.n == 0 }
             .mapIndexed { index, it ->
-                Page(index, "", if (it.height > 16383) it.url else it.url.substringBefore('?'))
+                Page(index, "", if (it.height > 16383) it.url.substringBefore('?') else it.url)
             }
     }
 
